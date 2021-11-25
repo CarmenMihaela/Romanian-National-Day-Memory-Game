@@ -1,0 +1,170 @@
+body {
+  background: linear-gradient(90deg, rgba(24,16,156,1) 50%, rgba(255,0,0,1) 50%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+img {
+  max-width: 100%;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color:blanchedalmond;
+}
+
+@mixin transition-ease {
+  transition: all 1s ease-in-out;
+}
+
+// A map of breakpoints.
+$breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px
+);
+
+@mixin respond-below($breakpoint) {
+
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+
+  // If the breakpoint doesn't exist in the map.
+  } @else {
+
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+
+P {
+  color: white;
+  text-align: center;
+  font-size: 5vh;
+  padding: 2vh;
+}
+
+.board {
+    width: 100vw;
+    max-width: 80vw;
+    display: grid;
+    grid-gap: 5px;
+    margin: auto;
+    padding: 2vh;
+    grid-template-columns: repeat(4, 1fr);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    
+  
+    .card-outer {
+      perspective: 1000px;
+      height: calc(100vh/4);
+      max-height: calc(100vh/4);
+      
+  
+      .card {
+        border-radius: 5px;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: rotateY(180deg);
+        transform-style: preserve-3d;
+        transition: all 0.5s;
+        
+  
+        & .front, & .back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden;
+          border-radius:10px;
+          box-shadow: yellow 0px 30px 60px -12px inset, yellow 0px 18px 36px -18px inset;
+        }
+  
+        & .front img {
+          display: block;
+          width: 100%;
+          height:calc(100vh/4.7);
+          padding: 0.5vh;
+          background-color: yellow;
+          border-radius:10px;
+        }
+
+        & .front p {
+          color: white;
+          padding: 0.2vw;
+          text-align: center;
+          font-size: 3vh;
+        }
+  
+        & .back {
+          background-color: yellow;
+          transform:rotateY(180deg);
+        }
+      }
+      &.flipped .card{
+        transform:rotate(0);
+      }
+    }
+  }
+  
+  .stats {
+    color: white;
+    text-align: center;
+
+    p {
+      font-size: 3vh;
+      padding: 2vh 1vh 0.5vh;
+    }
+
+    span{
+      font-size: 3vh;
+      padding: 0.5vh;
+    }
+     
+    span:first-child {
+      display: block;
+    }
+  }
+
+
+//ipad & tablet
+@include respond-below(lg) {
+  p {
+    font-size: 4vh;
+  }
+  .board {
+    max-width: 110vh;
+    grid-template-columns: repeat(3, 1fr);
+
+    .card-outer {
+      max-height: calc(100vh/5.5);
+
+      .card .front img {
+        height: calc(100vh/6.5);
+      }
+
+      .card .front p {
+        font-size: 2.5vh;
+      }
+    }
+  }
+}
