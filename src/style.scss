@@ -168,3 +168,15 @@ P {
     }
   }
 }
+
+//mobile 
+@include respond-below(sm) {
+  p {
+    font-size: 3vh;
+  }
+
+  .board .card-outer .card .front p {
+    font-size: 11px;
+    padding-top: 5px;
+  }
+}
